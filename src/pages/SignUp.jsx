@@ -1,11 +1,57 @@
-import React from 'react'
+import React, { useState } from 'react'
+import Photo from '../Assets/photo.jpg';
+import { AiFillEyeInvisible, AiFillEye } from 'react-icons/ai';
+import { Link } from 'react-router-dom';
+import { OAuth } from '../Components/OAuth';
 
-const SignUp = () => {
+export const SignUp = () => {
+  const [showPassowrd, setShowPassword] = useState(false);
+  const [formData, setFormData] = useState({
+    email: "",
+    password: "",
+  });
+  const { email, password } = formData;
+  function onChange(e) {
+    setFormData((prevState) => ({
+      ...prevState,
+      [e.target.id]: e.target.value,
+    }));
+  }
   return (
-    <div>
-      Sign Up
-    </div>
+    <section className='bg-gray-100'>
+      <h1 className='text-3xl text-center mt-6 font-bold'>Sign Up</h1>
+      <div className='flex justify-center flex-wrap items-center px-6 py-12 max-w-6xl mx-auto '>
+        <div className='md:w-[67%] lg:w-[50%] mb-12 md:mb-6'>
+          <img src={Photo} alt="key" className='w-[100%] rounded-3xl' />
+        </div>
+        <div className='w-full md:w-[67%] lg:w-[40%] lg:ml-20'>
+          <form>
+            <input type="text" placeholder='Full Name' className='w-full p-3 text-xl px-4 text-gray-700 border-gray-300 rounded transition ease-in-out mb-6' id='name' onChange={onChange} />
+
+            <input type="email" placeholder='Email Address' className='w-full p-3 text-xl px-4 text-gray-700 border-gray-300 rounded transition ease-in-out mb-6' id='email' value={email} onChange={onChange} />
+
+
+
+            <div className='relative mb-6'>
+              <input type={showPassowrd ? "text" : "password"} placeholder='Password' className='w-full p-3 text-xl px-4 text-gray-700 border-gray-300 rounded transition ease-in-out' id='password' value={password} onChange={onChange} />
+              {showPassowrd ? (<AiFillEyeInvisible className='absolute right-3 top-3 text-xl cursor-pointer' onClick={() => setShowPassword((prevState) => !prevState)} />) : (<AiFillEye className='absolute right-3 top-3 text-xl cursor-pointer' onClick={() => setShowPassword((prevState) => !prevState)} />)}
+            </div>
+            <div className='flex items-center justify-between whitespace-nowrap text-sm sm:text-lg'>
+              <p className='text-black font-bold'>Have a account?
+                <Link to="/sign-in" className='text-red-500'>Sign-In</Link>
+              </p>
+              <p>
+                <Link to="/forget-password" className='text-xl text-black underline'>Forget Password</Link>
+              </p>
+            </div>
+            <button type='submit' className='w-full  bg-blue-600 text-white px-7 py-3 text-sm font-medium uppercase rounded shadow-md hover:bg-blue-950 my-5 transition duration-200 ease-in-out hover:shadow-lg active:bg-blue-900'>Register</button>
+            <div className='my-4 flex items-center before:border-t  before:flex-1 before:border-gray-300 after:border-t  after:flex-1 after:border-gray-300'>
+              <p className='text-center font-semibold text-xl mx-4 '>OR</p>
+            </div>
+            <OAuth />
+          </form>
+        </div>
+      </div>
+    </section>
   )
 }
-
-export default SignUp
